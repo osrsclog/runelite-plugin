@@ -25,9 +25,9 @@
  *
  */
 
-package com.evansloan.collectionlog.ui;
+package com.osrsclog.collectionlog.ui;
 
-import com.evansloan.collectionlog.CollectionLogPlugin;
+import com.osrsclog.collectionlog.CollectionLogPlugin;
 import java.awt.image.BufferedImage;
 import java.util.function.UnaryOperator;
 import javax.annotation.Nonnull;

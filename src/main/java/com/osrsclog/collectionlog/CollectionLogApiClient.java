@@ -1,4 +1,4 @@
-package com.evansloan.collectionlog;
+package com.osrsclog.collectionlog;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -19,7 +19,7 @@ import okhttp3.ResponseBody;
 @Singleton
 public class CollectionLogApiClient
 {
-	private static final String COLLECTION_LOG_API_BASE = "api.collectionlog.net";
+	private static final String COLLECTION_LOG_API_BASE = "osrsclog.com/api";
 	private static final String COLLECTION_LOG_API_SCHEME = "https";
 	private static final String COLLECTION_LOG_USER_PATH = "user";
 	private static final String COLLECTION_LOG_LOG_PATH = "collectionlog";

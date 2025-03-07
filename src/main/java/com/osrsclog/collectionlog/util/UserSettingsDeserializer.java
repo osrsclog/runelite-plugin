@@ -1,7 +1,7 @@
-package com.evansloan.collectionlog.util;
+package com.osrsclog.collectionlog.util;
 
-import com.evansloan.collectionlog.UserSettings;
-import com.evansloan.collectionlog.AccountType;
+import com.osrsclog.collectionlog.UserSettings;
+import com.osrsclog.collectionlog.AccountType;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;

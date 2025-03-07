@@ -1,4 +1,4 @@
-package com.evansloan.collectionlog;
+package com.osrsclog.collectionlog;
 
 import java.awt.Color;
 import net.runelite.client.config.Alpha;
@@ -142,7 +142,7 @@ public interface CollectionLogConfig extends Config
 
 	@ConfigItem(
 		keyName = "upload_collection_log",
-		name = "Allow collectionlog.net connections",
+		name = "Allow osrsclog.com connections",
 		description = "Allows collection log data to upload on log out and the chat command to pull data",
 		position = 1,
 		section = exportingSection,

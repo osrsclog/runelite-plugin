@@ -1,4 +1,4 @@
-package com.evansloan.collectionlog.ui;
+package com.osrsclog.collectionlog.ui;
 
 import lombok.Getter;
 import lombok.Setter;

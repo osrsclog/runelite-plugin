@@ -1,4 +1,4 @@
-package com.evansloan.collectionlog;
+package com.osrsclog.collectionlog;
 
 import java.util.Arrays;
 import java.util.EnumSet;

@@ -1,8 +1,8 @@
-package com.evansloan.collectionlog;
+package com.osrsclog.collectionlog;
 
-import com.evansloan.collectionlog.ui.Icon;
-import com.evansloan.collectionlog.util.CollectionLogDeserializer;
-import com.evansloan.collectionlog.util.JsonUtils;
+import com.osrsclog.collectionlog.ui.Icon;
+import com.osrsclog.collectionlog.util.CollectionLogDeserializer;
+import com.osrsclog.collectionlog.util.JsonUtils;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
@@ -77,7 +77,7 @@ import okhttp3.Response;
 @Slf4j
 @PluginDescriptor(
 	name = "Collection Log",
-	description = "Share your collection log progress on collectionlog.net",
+	description = "Share your collection log progress on osrsclog.com",
 	tags = {"collection", "log"}
 )
 public class CollectionLogPlugin extends Plugin
@@ -505,7 +505,7 @@ public class CollectionLogPlugin extends Plugin
 
 	/**
 	 * Save collection log data to a file or upload to
-	 * collectionlog.net
+	 * osrsclog.com
 	 */
 	public void saveCollectionLogData()
 	{
@@ -920,7 +920,7 @@ public class CollectionLogPlugin extends Plugin
 			// When logged-in user triggers the command and doesn't allow API connections then give them an error
 			if (username.equals(localPlayerName))
 			{
-				clientThread.invoke(() -> updateChatMessage(chatMessage, "Please allow collectionlog.net connections to use the command."));
+				clientThread.invoke(() -> updateChatMessage(chatMessage, "Please allow osrsclog.com connections to use the command."));
 			}
 			return;
 		}
@@ -1141,7 +1141,7 @@ public class CollectionLogPlugin extends Plugin
 	}
 
 	/**
-	 * Delete profile from collectionlog.net
+	 * Delete profile from osrsclog.com
 	 */
 	public void deleteCollectionLog()
 	{
@@ -1152,9 +1152,9 @@ public class CollectionLogPlugin extends Plugin
 			@Override
 			public void onFailure(@NonNull Call call, @NonNull IOException e)
 			{
-				log.error("Unable to delete collectionlog.net profile: " + e.getMessage());
+				log.error("Unable to delete osrsclog.com profile: " + e.getMessage());
 				collectionLogPanel.setStatus(
-					"Error deleting collectionlog.net profile. Check Runelite logs for full error.",
+					"Error deleting osrsclog.com profile. Check Runelite logs for full error.",
 					true,
 					true
 				);
@@ -1166,7 +1166,7 @@ public class CollectionLogPlugin extends Plugin
 			{
 				response.close();
 				collectionLogPanel.setStatus(
-					"collectionlog.net profile successfully deleted.",
+					"osrsclog.com profile successfully deleted.",
 					false,
 					true
 				);
@@ -1203,8 +1203,8 @@ public class CollectionLogPlugin extends Plugin
 
 	private Callback uploadCollectionLogCallback(Runnable onSuccess)
 	{
-		String errorDisplay = "Error uploading data to collectionlog.net. Check Runelite logs for full error.";
-		String errorLog = "Unable to upload data to collectionlog.net: ";
+		String errorDisplay = "Error uploading data to osrsclog.com. Check Runelite logs for full error.";
+		String errorLog = "Unable to upload data to osrsclog.com: ";
 		return new Callback()
 		{
 			@Override
@@ -1224,7 +1224,7 @@ public class CollectionLogPlugin extends Plugin
 				response.close();
 
 				collectionLogPanel.setStatus(
-					"Collection log successfully uploaded to collectionlog.net",
+					"Collection log successfully uploaded to osrsclog.com",
 					false,
 					true
 				);

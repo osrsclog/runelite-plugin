@@ -1,4 +1,4 @@
-package com.evansloan.collectionlog;
+package com.osrsclog.collectionlog;
 
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;

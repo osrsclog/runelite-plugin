@@ -1,4 +1,4 @@
-package com.evansloan.collectionlog;
+package com.osrsclog.collectionlog;
 
 import com.google.common.collect.ImmutableMap;
 import java.util.function.Predicate;

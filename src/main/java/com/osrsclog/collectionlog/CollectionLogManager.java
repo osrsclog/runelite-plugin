@@ -1,9 +1,9 @@
-package com.evansloan.collectionlog;
+package com.osrsclog.collectionlog;
 
-import com.evansloan.collectionlog.util.CollectionLogDeserializer;
-import com.evansloan.collectionlog.util.CollectionLogSerializer;
-import com.evansloan.collectionlog.util.JsonUtils;
-import com.evansloan.collectionlog.util.UserSettingsDeserializer;
+import com.osrsclog.collectionlog.util.CollectionLogDeserializer;
+import com.osrsclog.collectionlog.util.CollectionLogSerializer;
+import com.osrsclog.collectionlog.util.JsonUtils;
+import com.osrsclog.collectionlog.util.UserSettingsDeserializer;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;

@@ -1,7 +1,7 @@
-package com.evansloan.collectionlog;
+package com.osrsclog.collectionlog;
 
-import com.evansloan.collectionlog.ui.GameStatePanel;
-import com.evansloan.collectionlog.ui.Icon;
+import com.osrsclog.collectionlog.ui.GameStatePanel;
+import com.osrsclog.collectionlog.ui.Icon;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -136,8 +136,8 @@ public class CollectionLogPanel extends PluginPanel
 
 		JButton websiteBtn = createTitleButton(
 			WEBSITE_ICON,
-			"Open collectionlog.net",
-			"https://collectionlog.net"
+			"Open osrsclog.com",
+			"https://osrsclog.com"
 		);
 		infoButtons.add(websiteBtn);
 
@@ -151,7 +151,7 @@ public class CollectionLogPanel extends PluginPanel
 		JButton githubBtn = createTitleButton(
 			GITHUB_ICON,
 			"View the Collection Log plugin source code on GitHub",
-			"https://github.com/evansloan/collection-log"
+			"https://github.com/osrsclog/collection-log"
 		);
 		infoButtons.add(githubBtn);
 
@@ -204,7 +204,7 @@ public class CollectionLogPanel extends PluginPanel
 
 		JLabel versionLabel = createKeyValueLabel("Version: ", CollectionLogConfig.PLUGIN_VERSION);
 		clnEnabledLabel = createKeyValueLabel(
-			"collectionlog.net uploads: ",
+			"osrsclog.com uploads: ",
 			config.allowApiConnections() ? "Enabled" : "Disabled"
 		);
 		pluginInfoPanel.add(versionLabel);
@@ -217,19 +217,19 @@ public class CollectionLogPanel extends PluginPanel
 
 		JButton changeLogButton = createButton(
 			"Change log",
-			(event) -> LinkBrowser.browse("https://collectionlog.net/change-log")
+			(event) -> LinkBrowser.browse("https://osrsclog.com/change-log")
 		);
 		buttonPanel.add(changeLogButton);
 
 		JButton quickStartButton = createButton(
 			"Quick start",
-			(event) -> LinkBrowser.browse("https://collectionlog.net/quick-start")
+			(event) -> LinkBrowser.browse("https://osrsclog.com/quick-start")
 		);
 		buttonPanel.add(quickStartButton);
 
 		JButton faqButton = createButton(
 			"FAQ",
-			(event) -> LinkBrowser.browse("https://collectionlog.net/faq")
+			(event) -> LinkBrowser.browse("https://osrsclog.com/faq")
 		);
 		buttonPanel.add(faqButton);
 
@@ -282,7 +282,7 @@ public class CollectionLogPanel extends PluginPanel
 
 		JLabel showQuantityLabel = new JLabel("Show item quantities");
 		showQuantityLabel.setForeground(Color.WHITE);
-		showQuantityLabel.setToolTipText("Toggle the display of item quantities on collectionlog.net");
+		showQuantityLabel.setToolTipText("Toggle the display of item quantities on osrsclog.com");
 		showQuantityPanel.add(showQuantityLabel, BorderLayout.CENTER);
 
 		showQuantityCheck = createCheckBox((event) -> {
@@ -298,7 +298,7 @@ public class CollectionLogPanel extends PluginPanel
 
 		JLabel displayRankLabel = new JLabel("Display rank");
 		displayRankLabel.setForeground(Color.WHITE);
-		displayRankLabel.setToolTipText("Rank type to display on collectionlog.net profile");
+		displayRankLabel.setToolTipText("Rank type to display on osrsclog.com profile");
 		displayRankPanel.add(displayRankLabel, BorderLayout.CENTER);
 
 		displayRankComboBox = createComboBox(AccountType.values(), event -> {
@@ -324,7 +324,7 @@ public class CollectionLogPanel extends PluginPanel
 			"Upload collection log",
 			(event) -> {
 				collectionLogPlugin.setCollectionLogDeleted(false);
-				setStatus("Uploading collection log to collectionlog.net...", false, false);
+				setStatus("Uploading collection log to osrsclog.com...", false, false);
 				clientThread.invokeLater(collectionLogPlugin::saveCollectionLogData);
 			}
 		);
@@ -342,8 +342,8 @@ public class CollectionLogPanel extends PluginPanel
 			(event) -> {
 				int confirm = JOptionPane.showOptionDialog(
 					deleteCollectionLogBtn,
-					"Are you sure you want to delete your collection log from collectionlog.net?\n" +
-					"Make sure to disable \"Allow collectionlog.net connections\" config to prevent future uploads.",
+					"Are you sure you want to delete your collection log from osrsclog.com?\n" +
+					"Make sure to disable \"Allow osrsclog.com connections\" config to prevent future uploads.",
 					"Delete collection log?",
 					JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE,
@@ -354,7 +354,7 @@ public class CollectionLogPanel extends PluginPanel
 
 				if (confirm == JOptionPane.YES_OPTION)
 				{
-					setStatus("Deleting collection log from collectionlog.net...", false, false);
+					setStatus("Deleting collection log from osrsclog.com...", false, false);
 					clientThread.invokeLater(collectionLogPlugin::deleteCollectionLog);
 				}
 			}
@@ -571,7 +571,7 @@ public class CollectionLogPanel extends PluginPanel
 		if (configChanged.getKey().equals("upload_collection_log"))
 		{
 			clnEnabledLabel.setText(getKeyValueText(
-				"collectionlog.net uploads: ",
+				"osrsclog.com uploads: ",
 				config.allowApiConnections() ? "Enabled" : "Disabled"
 			));
 

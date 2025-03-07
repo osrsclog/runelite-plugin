@@ -1,10 +1,10 @@
-package com.evansloan.collectionlog.util;
+package com.osrsclog.collectionlog.util;
 
-import com.evansloan.collectionlog.CollectionLog;
-import com.evansloan.collectionlog.CollectionLogItem;
-import com.evansloan.collectionlog.CollectionLogKillCount;
-import com.evansloan.collectionlog.CollectionLogPage;
-import com.evansloan.collectionlog.CollectionLogTab;
+import com.osrsclog.collectionlog.CollectionLog;
+import com.osrsclog.collectionlog.CollectionLogItem;
+import com.osrsclog.collectionlog.CollectionLogKillCount;
+import com.osrsclog.collectionlog.CollectionLogPage;
+import com.osrsclog.collectionlog.CollectionLogTab;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;

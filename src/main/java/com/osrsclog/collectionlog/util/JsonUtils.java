@@ -1,4 +1,4 @@
-package com.evansloan.collectionlog.util;
+package com.osrsclog.collectionlog.util;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializer;
