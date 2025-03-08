@@ -19,13 +19,13 @@ import okhttp3.ResponseBody;
 @Singleton
 public class CollectionLogApiClient
 {
-	private static final String COLLECTION_LOG_API_BASE = "osrsclog.com/api";
+	private static final String COLLECTION_LOG_API_BASE = "www.osrsclog.com";
 	private static final String COLLECTION_LOG_API_SCHEME = "https";
-	private static final String COLLECTION_LOG_USER_PATH = "user";
-	private static final String COLLECTION_LOG_LOG_PATH = "collectionlog";
-	private static final String COLLECTION_LOG_JSON_KEY = "collectionLog";
+	private static final Integer COLLECTION_LOG_API_PORT = 443;
+	private static final String COLLECTION_LOG_USER_PATH = "api/user";
+	private static final String COLLECTION_LOG_LOG_PATH = "api/collection-log";
 	private static final String COLLECTION_LOG_USER_AGENT = "Runelite collection-log/" + CollectionLogConfig.PLUGIN_VERSION;
-	private static final MediaType COLLECTION_LOG_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");;
+	private static final MediaType COLLECTION_LOG_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
 
 	@Inject
 	private CollectionLogConfig config;
@@ -38,7 +38,8 @@ public class CollectionLogApiClient
 		HttpUrl url = new HttpUrl.Builder()
 			.scheme(COLLECTION_LOG_API_SCHEME)
 			.host(COLLECTION_LOG_API_BASE)
-			.addPathSegment(COLLECTION_LOG_USER_PATH)
+			.port(COLLECTION_LOG_API_PORT)
+			.addPathSegments(COLLECTION_LOG_USER_PATH)
 			.build();
 
 		JsonObject jsonObject = new JsonObject();
@@ -56,24 +57,23 @@ public class CollectionLogApiClient
 		HttpUrl url = new HttpUrl.Builder()
 			.scheme(COLLECTION_LOG_API_SCHEME)
 			.host(COLLECTION_LOG_API_BASE)
-			.addPathSegment(COLLECTION_LOG_LOG_PATH)
+			.port(COLLECTION_LOG_API_PORT)
+			.addPathSegments(COLLECTION_LOG_LOG_PATH)
 			.addPathSegment(accountHash)
 			.build();
 
-		JsonObject logData = new JsonObject();
-		logData.add(COLLECTION_LOG_JSON_KEY, collectionLogData);
-
-		putRequest(url, logData, callback);
+		putRequest(url, collectionLogData, callback);
 	}
 
-	public void getCollectionLog(String username, Callback callback) throws IOException
+	public void getCollectionLog(String username, String page, Callback callback) throws IOException
 	{
 		HttpUrl url = new HttpUrl.Builder()
 			.scheme(COLLECTION_LOG_API_SCHEME)
 			.host(COLLECTION_LOG_API_BASE)
-			.addPathSegment(COLLECTION_LOG_LOG_PATH)
-			.addPathSegment(COLLECTION_LOG_USER_PATH)
+			.port(COLLECTION_LOG_API_PORT)
+			.addPathSegments(COLLECTION_LOG_LOG_PATH)
 			.addEncodedPathSegment(username)
+			.addPathSegment(page)
 			.build();
 
 		getRequest(url, callback);
@@ -84,8 +84,8 @@ public class CollectionLogApiClient
 		HttpUrl url = new HttpUrl.Builder()
 			.scheme(COLLECTION_LOG_API_SCHEME)
 			.host(COLLECTION_LOG_API_BASE)
-			.addPathSegment(COLLECTION_LOG_LOG_PATH)
-			.addPathSegment("delete")
+			.port(COLLECTION_LOG_API_PORT)
+			.addPathSegments(COLLECTION_LOG_LOG_PATH)
 			.build();
 
 		JsonObject deleteBody = new JsonObject();
@@ -107,6 +107,7 @@ public class CollectionLogApiClient
 		Request request = createRequestBuilder(url)
 			.get()
 			.build();
+
 		apiRequest(request, callback);
 	}
 
@@ -116,6 +117,7 @@ public class CollectionLogApiClient
 		Request request = createRequestBuilder(url)
 			.post(body)
 			.build();
+
 		apiRequest(request, callback);
 	}
 
@@ -125,6 +127,7 @@ public class CollectionLogApiClient
 		Request request = createRequestBuilder(url)
 			.put(body)
 			.build();
+
 		apiRequest(request, callback);
 	}
 
@@ -155,10 +158,12 @@ public class CollectionLogApiClient
 		}
 
 		ResponseBody resBody = response.body();
+
 		if (resBody == null)
 		{
 			return null;
 		}
+
 		return new JsonParser().parse(resBody.string()).getAsJsonObject();
 	}
 }

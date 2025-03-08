@@ -1,7 +1,7 @@
 package com.osrsclog.collectionlog;
 
 import com.osrsclog.collectionlog.ui.Icon;
-import com.osrsclog.collectionlog.util.CollectionLogDeserializer;
+import com.osrsclog.collectionlog.util.CollectionLogPageDeserializer;
 import com.osrsclog.collectionlog.util.JsonUtils;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableList;
@@ -177,6 +177,7 @@ public class CollectionLogPlugin extends Plugin
 		executor.submit(() -> collectionLogManager.loadCollectionLogFiles());
 
 		loadedCollectionLogIcons = new HashMap<>();
+
 		chatCommandManager.registerCommandAsync(COLLECTION_LOG_COMMAND_STRING, this::collectionLogLookup);
 	}
 
@@ -912,6 +913,33 @@ public class CollectionLogPlugin extends Plugin
 	 */
 	private void collectionLogLookup(ChatMessage chatMessage, String message)
 	{
+		Matcher commandMatcher = COLLECTION_LOG_COMMAND_PATTERN.matcher(message);
+
+		if (!commandMatcher.matches())
+		{
+			return;
+		}
+
+		String commandFilter = commandMatcher.group(1);
+		String commandPage = commandMatcher.group(2);
+		String pageArgument = CollectionLogPage.aliasPageName(commandPage);
+
+		// Display the total unique items obtained when no page is specified
+//		if (commandPage == null)
+//		{
+//			String output = "Collection Log: " + collectionLog.getUniqueObtained() + "/" + collectionLog.getUniqueItems();
+//			updateChatMessage(chatMessage, output);
+//			return;
+//		}
+
+		// Display a random collection log page for the keyword 'any'
+//		if (commandPage.equals("any"))
+//		{
+//			String output = buildCommandOutput(collectionLog.randomPage(), commandFilter);
+//			updateChatMessage(chatMessage, output);
+//			return;
+//		}
+
 		String localPlayerName = client.getLocalPlayer().getName();
 		String username = Text.sanitize(chatMessage.getName());
 
@@ -922,8 +950,10 @@ public class CollectionLogPlugin extends Plugin
 			{
 				clientThread.invoke(() -> updateChatMessage(chatMessage, "Please allow osrsclog.com connections to use the command."));
 			}
+
 			return;
 		}
+
 		clientThread.invoke(() -> updateChatMessage(chatMessage, "Loading..."));
 
 		// Because outgoing private messages display the recipient's name use the logged-in user instead
@@ -934,7 +964,7 @@ public class CollectionLogPlugin extends Plugin
 
 		try
 		{
-			apiClient.getCollectionLog(username, new Callback()
+			apiClient.getCollectionLog(username, pageArgument, new Callback()
 			{
 				@Override
 				public void onFailure(@NonNull Call call, @NonNull IOException e)
@@ -955,12 +985,13 @@ public class CollectionLogPlugin extends Plugin
 						return;
 					}
 
-					CollectionLog collectionLog = jsonUtils.fromJsonObject(
-						collectionLogJson.getAsJsonObject("collectionLog"),
-						CollectionLog.class,
-						new CollectionLogDeserializer()
+					CollectionLogPage collectionLogPage = jsonUtils.fromJsonObject(
+						collectionLogJson.getAsJsonObject(),
+						CollectionLogPage.class,
+						new CollectionLogPageDeserializer(pageArgument)
 					);
-					clientThread.invoke(() -> replaceCommandMessage(chatMessage, message, collectionLog));
+
+					clientThread.invoke(() -> replaceCommandMessage(chatMessage, message, commandFilter, collectionLogPage));
 				}
 			});
 		}
@@ -977,46 +1008,26 @@ public class CollectionLogPlugin extends Plugin
 	 *
 	 * @param chatMessage The ChatMessage event
 	 * @param message Text of the message that triggered the command
-	 * @param collectionLog Collection log data of the user triggering the command
+	 * @param collectionLogPage Collection log data of the user triggering the command
 	 */
-	private void replaceCommandMessage(ChatMessage chatMessage, String message, CollectionLog collectionLog)
+	private void replaceCommandMessage(
+		ChatMessage chatMessage,
+		String message,
+		String commandFilter,
+		CollectionLogPage collectionLogPage
+	)
 	{
-		Matcher commandMatcher = COLLECTION_LOG_COMMAND_PATTERN.matcher(message);
-		if (!commandMatcher.matches())
-		{
-			return;
-		}
-		String commandFilter = commandMatcher.group(1);
-		String commandPage = commandMatcher.group(2);
-
-		// Display the total unique items obtained when no page is specified
-		if (commandPage == null)
-		{
-			String output = "Collection Log: " + collectionLog.getUniqueObtained() + "/" + collectionLog.getUniqueItems();
-			updateChatMessage(chatMessage, output);
-			return;
-		}
-
-		// Display a random collection log page for the keyword 'any'
-		if (commandPage.equals("any"))
-		{
-			String output = buildCommandOutput(collectionLog.randomPage(), commandFilter);
-			updateChatMessage(chatMessage, output);
-			return;
-		}
-
-		String pageArgument = CollectionLogPage.aliasPageName(commandPage);
-		CollectionLogPage collectionLogPage = collectionLog.searchForPage(pageArgument);
-
 		// Display an error when no matching page could be found
 		if (collectionLogPage == null)
 		{
 			updateChatMessage(chatMessage, "No Collection Log page found.");
+
 			return;
 		}
 
 		// Display the found collection log page
 		String output = buildCommandOutput(collectionLogPage, commandFilter);
+
 		updateChatMessage(chatMessage, output);
 	}
 
@@ -1114,6 +1125,7 @@ public class CollectionLogPlugin extends Plugin
 		}
 
 		Widget containerChild = collLogContainer.getStaticChildren()[0];
+
 		return containerChild.getDynamicChildren()[1];
 	}
 
@@ -1194,7 +1206,14 @@ public class CollectionLogPlugin extends Plugin
 		userSettingsLoaded = false;
 	}
 
-	private void uploadCollectionLog(String username, String accountType, String accountHash, boolean isFemale, JsonObject userSettings, JsonObject collectionLog)
+	private void uploadCollectionLog(
+		String username,
+		String accountType,
+		String accountHash,
+		boolean isFemale,
+		JsonObject userSettings,
+		JsonObject collectionLog
+	)
 	{
 		apiClient.updateUser(username, accountType, accountHash, isFemale, userSettings, uploadCollectionLogCallback(() -> {
 			apiClient.updateCollectionLog(collectionLog, accountHash, uploadCollectionLogCallback(null));
